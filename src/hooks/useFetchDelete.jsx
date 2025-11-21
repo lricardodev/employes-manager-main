@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import axios from 'axios';
-import { EmployeeIdContext } from '../table/MainTable';
 
 export const useFetchDelete = (id) => {
 
