@@ -3,7 +3,8 @@ import {IconButton,Modal,Table,TableBody,TableCell,TableContainer,TableRow,Paper
 import { useContext, useEffect, useState } from "react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import axios from "axios";
+import { api } from "../config/api";
+import { EmployeeContext } from "../context/EmployeeContext";
 
 export const AreasButton = ({ employee }) => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -28,14 +29,17 @@ export const AreasButton = ({ employee }) => {
     return selectedRows.includes(rowId);
   };
 
-  const editArea = () => {
+  const { fetchGet } = useContext(EmployeeContext);
+
+  const editArea = async () => {
     const selectedAreas = selectedRows.map((rowId) => {
       const area = tableData.find((row) => row.id === rowId);
       console.log(area);
       return { ...area };
     });
-    axios.put(`http://localhost:3005/areas/${employee.id}`, selectedAreas);
-    window.location.reload();
+    await api.put(`/areas/${employee.id}`, selectedAreas);
+    await fetchGet();
+    setToggle(false);
   };
 
   const [toggle, setToggle] = useState(false);

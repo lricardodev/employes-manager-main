@@ -62,47 +62,55 @@ export const MainTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {employees.map((employee, index) => (
-              <TableRow key={index}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  {employee.empName}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  {employee.empFirstName}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  {employee.empLastName}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  <ViewButton employee={employee} />
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  <EditButton employee={employee} />
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontSize: "20px", border: "1px solid #708090" }}
-                >
-                  <DeleteButton employee={employee} />
+            {employees && employees.length > 0 ? (
+              employees.map((employee) => (
+                <TableRow key={employee.id}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    {employee.empName}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    {employee.empFirstName}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    {employee.empLastName}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    <ViewButton employee={employee} />
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    <EditButton employee={employee} />
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ fontSize: "20px", border: "1px solid #708090" }}
+                  >
+                    <DeleteButton employee={employee} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center" sx={{ fontSize: "20px", padding: "20px" }}>
+                  No hay empleados registrados
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>

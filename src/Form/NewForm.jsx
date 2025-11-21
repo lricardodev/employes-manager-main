@@ -5,14 +5,14 @@ import { EmployeeContext } from "../context/EmployeeContext";
 
 export const NewForm = () => {
   const { onChangeEmployee, onChangeUser, employee, user } = useFetchPost();
-  const { employeeSubmitPost, userSubmitPost } = useContext(EmployeeContext);
+  const { employeeSubmitPost, userSubmitPost, fetchGet } = useContext(EmployeeContext);
 
   const globalSubmit = async (e) => {
     e.preventDefault();
     await employeeSubmitPost(employee);
     await userSubmitPost(user);
-    // setOpen(false);
-    window.location.reload();
+    await fetchGet();
+    setOpen(false);
   };
 
   const [open, setOpen] = useState(false);

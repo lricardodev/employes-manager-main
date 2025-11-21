@@ -1,17 +1,35 @@
-import axios from 'axios';
+import { api } from '../config/api';
 
 export const useFetchDelete = (id) => {
 
-  const deleteEmployee = () => {
-    axios.delete(`http://localhost:3005/employees/${id}`)
+  const deleteEmployee = async () => {
+    try {
+      await api.delete(`/employees/${id}`);
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      return { success: false, error };
+    }
   };
 
-  const deleteUser = () => {
-    axios.delete(`http://localhost:3005/users/${id}`)
+  const deleteUser = async () => {
+    try {
+      await api.delete(`/users/${id}`);
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return { success: false, error };
+    }
   };
 
-  const deleteArea = () => {
-    axios.delete(`http://localhost:3005/areas/${id}`)
+  const deleteArea = async () => {
+    try {
+      await api.delete(`/areas/${id}`);
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting area:', error);
+      return { success: false, error };
+    }
   };
 
   return { deleteEmployee, deleteUser, deleteArea };

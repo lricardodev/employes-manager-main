@@ -7,12 +7,17 @@ import {
   SET_AREA,
   SET_EMPLOYEES,
   SET_USER,
+  DELETE_EMPLOYEE,
 } from "./types";
 
 export const reductor = (state, action) => {
   switch (action.type) {
     case POST_EMPLOYEE:
-      return { ...state, employee: action.payload };
+      return {
+        ...state,
+        employee: action.payload,
+        employees: [...state.employees, action.payload],
+      };
 
     case POST_USER:
       return { ...state, user: action.payload };
@@ -55,6 +60,16 @@ export const reductor = (state, action) => {
       // console.log("user", indexUser);
       // console.log(...userCopy);
       return { ...state, userGet: userCopy };
+
+    case DELETE_EMPLOYEE:
+      return {
+        ...state,
+        employees: Array.isArray(state.employees)
+          ? state.employees.filter(
+              (employee) => employee.id !== action.payload
+            )
+          : [],
+      };
 
     default:
       return state;

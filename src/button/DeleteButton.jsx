@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import {Button,Dialog,DialogActions,DialogTitle} from "@mui/material";
 import { useFetchDelete } from "../hooks/useFetchDelete";
+import { EmployeeContext } from "../context/EmployeeContext";
 
 export const DeleteButton = ({employee}) => {
   const [open, setOpen] = useState(false);
+  const { deleteEmployeeFromState } = useContext(EmployeeContext);
+  
   const handleOpen = () => {
     setOpen(!open);
   };
 
 const {deleteEmployee, deleteUser, deleteArea} = useFetchDelete(employee.id);
 
-const globalDelete = (e) => {
-  deleteEmployee(e);
-  deleteUser(e);
-  // deleteArea(e);
-  window.location.reload();
+const globalDelete = async (e) => {
+  try {
+    await Promise.all([
+      deleteEmployee(),
+      deleteUser(),
+      // deleteArea(),
+    ]);
+    deleteEmployeeFromState(employee.id);
+    setOpen(false);
+  } catch (error) {
+    console.error('Error deleting:', error);
+    // Opcional: mostrar un mensaje de error al usuario
+  }
 }
 
 

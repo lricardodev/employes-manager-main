@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRandomId } from "./useRandomId";
-import axios from "axios";
+import { api } from "../config/api";
 
 export const useFetchPost = () => {
   const { randomId } = useRandomId();
@@ -20,8 +20,8 @@ export const useFetchPost = () => {
   };
 
   const employeeSubmitPost = () => {
-    axios
-      .post("http://localhost:3005/employees", employee)
+    api
+      .post("/employees", employee)
       .then((resp) => resp.data);
   };
 
@@ -40,7 +40,7 @@ export const useFetchPost = () => {
   };
 
   const userSubmitPost = () => {
-    axios.post("http://localhost:3005/users", user).then((resp) => resp.data);
+    api.post("/users", user).then((resp) => resp.data);
   };
 
   // * Area
@@ -53,7 +53,7 @@ export const useFetchPost = () => {
   const [area, setArea] = useState(areasTotales);
 
   const areaSubmitPost = () => {
-    axios.post("http://localhost:3005/areas", area);
+    api.post("/areas", area);
     // .then((resp) => resp.data)
   };
 

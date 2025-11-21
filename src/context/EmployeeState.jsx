@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
-import axios from "axios";
+import { api } from "../config/api";
 import { EmployeeContext } from "./EmployeeContext";
-import { POST_AREA, POST_EMPLOYEE, POST_USER, PUT_EMPLOYEE, PUT_USER, SET_AREA, SET_EMPLOYEES, SET_USER } from "./types";
+import { POST_AREA, POST_EMPLOYEE, POST_USER, PUT_EMPLOYEE, PUT_USER, SET_AREA, SET_EMPLOYEES, SET_USER, DELETE_EMPLOYEE } from "./types";
 import { useRandomId } from "../hooks/useRandomId";
 import { reductor } from "./reducer";
 import { initialState } from "./initialState";
@@ -13,7 +13,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const fetchGet = async () => {
     try {
-      const employeesResponse = await axios.get("http://localhost:3005/employees");
+      const employeesResponse = await api.get("/employees");
       const employeesData = employeesResponse.data;
       dispatch({ type: SET_EMPLOYEES, payload: employeesData });
     } catch (error) {
@@ -23,7 +23,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const fetchGetId = async (id) => {
     try {
-      const usersResponse = await axios.get(`http://localhost:3005/users/${id}`);
+      const usersResponse = await api.get(`/users/${id}`);
       const usersData = usersResponse.data;
       dispatch({ type: SET_USER, payload: usersData });
     } catch (error) {
@@ -33,7 +33,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const employeeSubmitPost = async (employee) => {
     try {
-      const { data } = await axios.post("http://localhost:3005/employees", employee);
+      const { data } = await api.post("/employees", employee);
       dispatch({ type: POST_EMPLOYEE, payload: data });
     } catch (error) {
       console.error("Error posting employee:", error);
@@ -42,7 +42,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const userSubmitPost = async (user) => {
     try {
-      const { data } = await axios.post("http://localhost:3005/users", user);
+      const { data } = await api.post("/users", user);
       dispatch({ type: POST_USER, payload: data });
     } catch (error) {
       console.error("Error posting user:", error);
@@ -51,7 +51,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const areaSubmitPost = async (area) => {
     try {
-      const { data } = await axios.post("http://localhost:3005/areas", area);
+      const { data } = await api.post("/areas", area);
       dispatch({ type: POST_AREA, payload: data });
     } catch (error) {
       console.error("Error posting area:", error);
@@ -60,7 +60,7 @@ export const EmployeeProvider = ({ children }) => {
 
   const submitEmployee = async (id, formData) => {
     try {
-      const { data } = await axios.put(`http://localhost:3005/employees/${id}`, formData);
+      const { data } = await api.put(`/employees/${id}`, formData);
       dispatch({ type: PUT_EMPLOYEE, payload: data });
     } catch (error) {
       console.error(`Error updating employee with id ${id}:`, error);
@@ -69,11 +69,15 @@ export const EmployeeProvider = ({ children }) => {
 
   const submitUser = async (id, formUser) => {
     try {
-      const { data } = await axios.put(`http://localhost:3005/users/${id}`, formUser);
+      const { data } = await api.put(`/users/${id}`, formUser);
       dispatch({ type: PUT_USER, payload: data });
     } catch (error) {
       console.error(`Error updating user with id ${id}:`, error);
     }
+  };
+
+  const deleteEmployeeFromState = (id) => {
+    dispatch({ type: DELETE_EMPLOYEE, payload: id });
   };
 
   useEffect(() => {
@@ -86,11 +90,13 @@ export const EmployeeProvider = ({ children }) => {
   const value = {
     ...state,
     fetchGetId,
+    fetchGet,
     submitEmployee,
     submitUser,
     employeeSubmitPost,
     userSubmitPost,
     areaSubmitPost,
+    deleteEmployeeFromState,
   };
 
   return (

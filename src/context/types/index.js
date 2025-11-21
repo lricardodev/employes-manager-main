@@ -9,4 +9,5 @@ export const POST_AREA = "POST_AREA";
 export const PUT_EMPLOYEE = "POST_EMPLOYEE";
 export const PUT_USER = "PUT_USER";
 export const PUT_AREA = "PUT_AREA";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 export const TOGGLE_CHECKED = "TOGGLE_CHECKED";

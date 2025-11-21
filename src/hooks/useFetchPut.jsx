@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api, API_BASE_URL, IS_MOCK_MODE } from "../config/api";
+import { mockApi } from "../services/mockApi";
 
 export const useFetchPut = (employee) => {
   // * Employee
@@ -14,8 +15,8 @@ export const useFetchPut = (employee) => {
   };
 
   const submitEmployee = () => {
-    axios
-      .put(`http://localhost:3005/employees/${employee.id}`, formData)
+    api
+      .put(`/employees/${employee.id}`, formData)
       .then((resp) => resp.data);
   };
 
@@ -35,17 +36,27 @@ export const useFetchPut = (employee) => {
   };
 
   const submitUser = () => {
-    axios
-      .put(`http://localhost:3005/users/${employee.id}`, formUser)
+    api
+      .put(`/users/${employee.id}`, formUser)
       .then((resp) => resp.data);
   };
 
   //* getUser
   const getUser = async () => {
-      const response = await fetch(`http://localhost:3005/users/${employee.id}`);
-      const data = await response.json();
-      setFormUser(data);
-
+    try {
+      if (IS_MOCK_MODE) {
+        // Usar mock API
+        const response = await mockApi.get(`/users/${employee.id}`);
+        setFormUser(response.data);
+      } else {
+        // Usar fetch normal
+        const response = await fetch(`${API_BASE_URL}/users/${employee.id}`);
+        const data = await response.json();
+        setFormUser(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
   
 

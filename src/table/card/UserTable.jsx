@@ -1,7 +1,7 @@
 import {Paper,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,} from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
 import { EditButton } from "../../button/EditButton";
-import axios from "axios";
+import { api } from "../../config/api";
 import { NewButtonAreas } from "../../button/NewButtonAreas";
 import { EmployeeContext } from "../../context/EmployeeContext";
 
@@ -11,7 +11,7 @@ export const UserTable = ({ employee }) => {
 
   const fetchData = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3005/areas");
+      const { data } = await api.get("/areas");
       setAreaData(data);
     } catch (error) {
       console.error("Error fetching areas data", error);
